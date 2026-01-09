@@ -1,0 +1,110 @@
+# Product FAQ - CloudSync Pro
+
+## General Questions
+
+**Q: What is CloudSync Pro?**
+A: CloudSync Pro is an enterprise-grade cloud storage and synchronization solution that enables teams to securely store, share, and collaborate on files across multiple devices and platforms.
+
+**Q: What platforms does CloudSync Pro support?**
+A: CloudSync Pro is available on:
+- Windows (10 and 11)
+- macOS (10.15 and later)
+- Linux (Ubuntu, Fedora, Debian)
+- iOS (14 and later)
+- Android (10 and later)
+- Web browsers (Chrome, Firefox, Safari, Edge)
+
+**Q: How much storage do I get?**
+A: Storage allocation depends on your plan:
+- Basic Plan: 100 GB per user
+- Professional Plan: 1 TB per user
+- Enterprise Plan: Unlimited storage
+
+## Security Questions
+
+**Q: How is my data protected?**
+A: CloudSync Pro uses multiple layers of security:
+- AES-256 encryption at rest
+- TLS 1.3 encryption in transit
+- Two-factor authentication (2FA)
+- Zero-knowledge encryption option
+- SOC 2 Type II certified data centers
+
+**Q: Can I control who accesses my files?**
+A: Yes, you have granular control over file permissions:
+- View-only access
+- Comment access
+- Edit access
+- Admin access
+You can also set expiration dates for shared links and require passwords.
+
+**Q: Is my data backed up?**
+A: Yes, all data is automatically backed up with:
+- Real-time replication across multiple data centers
+- 30-day version history
+- Point-in-time recovery
+- Geo-redundant storage
+
+## Features Questions
+
+**Q: Can I collaborate on documents in real-time?**
+A: Yes, CloudSync Pro supports real-time collaboration on:
+- Microsoft Office files (Word, Excel, PowerPoint)
+- Google Workspace files
+- PDF annotations
+- Text files and code
+
+**Q: Does CloudSync Pro integrate with other tools?**
+A: Yes, we integrate with:
+- Slack and Microsoft Teams
+- Salesforce and HubSpot
+- Jira and Asana
+- Adobe Creative Cloud
+- AutoCAD and other CAD software
+
+**Q: What is the file size limit?**
+A: File size limits vary by plan:
+- Basic Plan: 5 GB per file
+- Professional Plan: 15 GB per file
+- Enterprise Plan: 50 GB per file
+
+## Billing Questions
+
+**Q: How does billing work?**
+A: Billing is based on:
+- Number of active users
+- Storage consumed
+- Additional features enabled
+Billing is monthly or annual (with 20% discount for annual plans).
+
+**Q: Can I change my plan?**
+A: Yes, you can upgrade or downgrade at any time. Changes take effect at the start of the next billing cycle.
+
+**Q: What is your refund policy?**
+A: We offer a 30-day money-back guarantee for new customers. If you're not satisfied, contact support@cloudsync.com for a full refund.
+
+## Technical Support
+
+**Q: How do I get support?**
+A: Support options include:
+- 24/7 email support (all plans)
+- Live chat support (Professional and Enterprise)
+- Phone support (Enterprise only)
+- Dedicated account manager (Enterprise only)
+
+**Q: What is your SLA?**
+A: Our Service Level Agreement guarantees:
+- 99.9% uptime for Professional plans
+- 99.99% uptime for Enterprise plans
+- Response time: 1 hour for critical issues (Enterprise)
+
+**Q: How do I report a bug?**
+A: Report bugs through:
+- Support portal: support.cloudsync.com
+- Email: bugs@cloudsync.com
+- In-app feedback button
+
+---
+
+Last updated: January 2024
+For more information, visit: www.cloudsync.com/help

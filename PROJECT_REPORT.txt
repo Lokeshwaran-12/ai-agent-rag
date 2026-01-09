@@ -1,0 +1,152 @@
+# 🤖 AI Agent RAG System - Project Report
+
+## 📖 Overview
+This project is an advanced **Intelligent AI Agent** capable of answering user queries by dynamically choosing between:
+1.  **General Knowledge:** Using its internal LLM knowledge.
+2.  **Company Knowledge (RAG):** Searching through provided documents (PDFs/Text) to find factual answers.
+3.  **Tools:** Performing calculations or checking the current time.
+
+It is designed to be **strict**, **truthful**, and **robust**, ensuring it only answers based on facts when reviewing company policies.
+
+---
+
+## 🏗️ Architecture & How It Was Built
+
+The system follows a modern **Agentic Workflow**.
+📄 **See [WORKFLOW_DIAGRAM.txt](WORKFLOW_DIAGRAM.txt) for a visual representation.**
+
+### 1. The "Brain" (AI Agent)
+- **Model:** We use `gpt-oss-120b` (via Azure OpenAI) as the reasoning engine.
+- **Decision Making:** When a user asks a question, the Agent analyzes it:
+    - *"Is this about vacation policy?"* → **Action:** Call `search_documents` tool.
+    - *"What is 50 * 3?"* → **Action:** Call `calculator` tool.
+    - *"Hi, how are you?"* → **Action:** precise Reply directly.
+
+### 2. The "Memory" (RAG System)
+- **Ingestion:** Documents (`company_policy.txt`, `api_docs.txt`) are loaded and sliced into small pieces (Chunks of 500 characters).
+- **Embedding:** Each chunk is converted into a mathematical vector using `text-embedding-3-small`.
+- **Storage:** These vectors are stored in a **FAISS** (Facebook AI Similarity Search) index for instant retrieval.
+
+### 3. The Retrieval Process
+When the Agent searches for *"sick leave"*:
+1.  The query is converted to a vector.
+2.  FAISS finds the **Top 4** most similar text chunks.
+3.  These chunks are effectively "read" by the Agent to generate the final answer.
+
+---
+
+## 💻 Tech Stack Used
+
+| Component | Technology | Why? |
+| :--- | :--- | :--- |
+| **Language** | Python 3.9+ | Standard for AI/ML development. |
+| **API Framework** | **FastAPI** | High-performance, modern async web API. |
+| **LLM Provider** | **Azure OpenAI** | Enterprise-grade security and reliability. |
+| **Orchestration** | Custom Agent | Built from scratch (no heavy libraries like LangChain) for maximum control and understanding. |
+| **Vector DB** | **FAISS** | Fast, local, efficient similarity search. |
+| **Container** | Docker | Ensures the app runs exact same way everywhere. |
+
+---
+
+## ✨ Key Features & Improvements
+
+during development, we implemented several advanced features to make the system production-ready:
+
+1.  **Strict Factuality:**
+    - The System Prompt explicitly instructs the model: *"If the answer is explicitly stated in the retrieved documents, you must use that value. Do not assume or generalize."*
+    - This prevents the AI from "hallucinating" or guessing policy rules.
+
+2.  **Optimized Retrieval:**
+    - We tuned the **Chunk Size** to `500` characters. This ensures we capture specific details (like specific "Sick Leave" bullets) without losing context.
+    - We increased retrieval to **Top 4** results to ensure no relevant info is missed.
+
+3.  **Robust Fallback Logic:**
+    - Even if the AI Model outputs "Thinking..." or raw JSON text instead of calling a tool, our Agent logic catches it and manually executes the tool to ensure the user gets an answer.
+
+4.  **Model Routing (Hybrid Support):**
+    - The code supports switching between small fast models (Phi-4) and powerful models (GPT-4/Llama) via simple configuration changes.
+
+---
+
+## 📂 Project Structure
+
+- `app/` - Core application code.
+  - `agent.py` - The AI Brain & Tool Logic.
+  - `rag.py` - Document processing & FAISS storage.
+  - `main.py` - The FastAPI server.
+- `data/` - Stores your documents and the generated Vector Index.
+- `.env` - Configuration (API Keys, Model names).
+
+---
+
+*Built with ❤️ by Lokeshwaran's AI Team.*
+
+================================================================================
+                    AI AGENT RAG SYSTEM - WORKFLOW DIAGRAM
+================================================================================
+
+This diagram illustrates how a User Query is processed by the system.
+
+[ USER ]
+    │
+    │  1. Sends Query: "How many sick leave days?"
+    │
+    ▼
+[ FASTAPI SERVER ] (Port 8000)
+    │
+    │  2. Forwards to Agent
+    │
+    ▼
+[ AI AGENT BRAIN ] (app/agent.py)
+    │
+    │  3. Analyzes Query Intent
+    │     "Does this require external information?"
+    │
+    ├─── [ NO: General Chat ] ──────────────────────────────┐
+    │    (e.g., "What is 2+2?")                             │
+    │                                                       │
+    │  4. Direct LLM Response                               │
+    │   (Uses gpt-oss-120b)                                 │
+    │                                                       │
+    ▼                                                       │
+[ YES: RAG Needed ]                                         │
+    │                                                       │
+    │  4. CALL TOOL: search_documents()                     │
+    │                                                       │
+    ▼                                                       │
+[ RAG RETRIEVER ] (app/rag.py)                              │
+    │                                                       │
+    │  5. Convert Query to Vector (text-embedding-3)        │
+    │  6. Search FAISS Index (Top 4 Matches)                │
+    │                                                       │
+    ▼                                                       │
+[ CONTEXT RETRIEVED ]                                       │
+    │  • "Sick Leave: 10 days..."                           │
+    │  • "Vacation Policy..."                               │
+    │                                                       │
+    │  7. Return Context to Agent                           │
+    │                                                       │
+    ▼                                                       │
+[ AI AGENT BRAIN ]                                          │
+    │                                                       │
+    │  8. SYNTHESIZE ANSWER                                 │
+    │     "Strictly based on the documents..."              │
+    │                                                       │
+    ▼                                                       │
+    ────────────────────────────────────────────────────────┘
+    │
+    │  9. Final JSON Response
+    │
+    ▼
+[ USER ]
+"Employees receive 10 days of paid sick leave per year."
+
+================================================================================
+                                TECH STACK
+================================================================================
+1. API Interface:   FastAPI
+2. LLM Engine:      Azure OpenAI (gpt-oss-120b)
+3. Vector DB:       FAISS (Local)
+4. Embeddings:      text-embedding-3-small
+5. Orchestration:   Custom Python Logic
+================================================================================
